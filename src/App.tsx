@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { v1 } from 'uuid';
+import { Todolist } from './components/Todolist';
+import './App.css';
+
+export type TaskType = {
+  id: string;
+  title: string;
+  isDone: boolean;
+};
+export type FilterValuesType = 'all' | 'active' | 'completed';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTasks] = useState<TaskType[]>([
+    { id: v1(), title: 'HTML&CSS', isDone: true },
+    { id: v1(), title: 'JS', isDone: true },
+    { id: v1(), title: 'React', isDone: false },
+    { id: v1(), title: 'Rest API', isDone: false },
+    { id: v1(), title: 'GraphQL', isDone: false },
+    { id: v1(), title: 'Redux', isDone: false },
+    { id: v1(), title: 'Unit tests', isDone: true },
+  ]);
+  const [filter, setFilter] = useState<FilterValuesType>('all');
+
+  const addTask = (title: string) => {
+    const newTask: TaskType = {
+      id: v1(),
+      title,
+      isDone: false,
+    };
+    setTasks([newTask, ...tasks]);
+  };
+
+  const removeTask = (id: string) => setTasks(tasks.filter(t => t.id !== id));
+
+  function tasksFilter(): TaskType[] {
+    switch (filter) {
+      case 'active':
+        return tasks.filter(t => !t.isDone);
+      case 'completed':
+        return tasks.filter(t => t.isDone);
+      default:
+        return tasks;
+    }
+  }
+  const filteredTasksArr = tasksFilter();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className=''>
+      <Todolist
+        title={'What to learn'}
+        tasks={filteredTasksArr}
+        date={new Date().toLocaleDateString()}
+        addTask={addTask}
+        removeTask={removeTask}
+        setFilter={setFilter}
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
