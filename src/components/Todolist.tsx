@@ -21,12 +21,18 @@ export const Todolist: FC<PropsType> = ({
   setFilter,
   onChangeTaskStatus,
 }) => {
+  const [error, setError] = useState<string>('');
   const [inputVal, setInputVal] = useState<string>('');
-  const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+  const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.currentTarget.value);
+    setError('');
+  };
 
   const addTaskHandler = () => {
-    if (!inputVal.trim()) return;
+    if (!inputVal.trim()) {
+      setError('Field is required');
+      return;
+    }
     addTask(inputVal.trim());
     setInputVal('');
   };
@@ -67,8 +73,11 @@ export const Todolist: FC<PropsType> = ({
           value={inputVal}
           onChange={onInputChangeHandler}
           onKeyDown={onKeyPressHandler}
+          className={error ? 'error' : ''}
         />
+        <span> </span>
         <Button name={'add task'} onClick={addTaskHandler} />
+        {error && <div className='error-message'>{error}</div>}
       </div>
       <br />
 
