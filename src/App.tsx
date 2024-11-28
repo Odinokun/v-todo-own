@@ -56,6 +56,7 @@ function App() {
         date={new Date().toLocaleDateString()}
         addTask={addTask}
         removeTask={removeTask}
+        filter={filter}
         setFilter={setFilter}
         onChangeTaskStatus={onChangeTaskStatus}
       />

@@ -8,6 +8,7 @@ type PropsType = {
   date?: string;
   addTask: (title: string) => void;
   removeTask: (id: string) => void;
+  filter: FilterValuesType;
   setFilter: (val: FilterValuesType) => void;
   onChangeTaskStatus: (taskId: string, status: boolean) => void;
 };
@@ -18,6 +19,7 @@ export const Todolist: FC<PropsType> = ({
   date,
   addTask,
   removeTask,
+  filter,
   setFilter,
   onChangeTaskStatus,
 }) => {
@@ -82,9 +84,21 @@ export const Todolist: FC<PropsType> = ({
       <br />
 
       <div>
-        <Button name={'All'} onClick={setFilterAll} />
-        <Button name={'Active'} onClick={setFilterActive} />
-        <Button name={'Completed'} onClick={setFilterCompleted} />
+        <Button
+          name={'All'}
+          onClick={setFilterAll}
+          className={filter === 'all' ? 'active' : ''}
+        />
+        <Button
+          name={'Active'}
+          onClick={setFilterActive}
+          className={filter === 'active' ? 'active' : ''}
+        />
+        <Button
+          name={'Completed'}
+          onClick={setFilterCompleted}
+          className={filter === 'completed' ? 'active' : ''}
+        />
       </div>
       <br />
 
