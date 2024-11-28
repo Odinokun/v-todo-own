@@ -5,6 +5,6 @@ type PropsType = {
   onClick: () => void;
 };
 
-export const Button: FC<PropsType> = ({ name, onClick, ...restProps }) => {
+export const Button: FC<PropsType> = ({ name, onClick }) => {
   return <button onClick={onClick}>{name}</button>;
 };

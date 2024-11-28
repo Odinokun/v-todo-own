@@ -9,6 +9,7 @@ type PropsType = {
   addTask: (title: string) => void;
   removeTask: (id: string) => void;
   setFilter: (val: FilterValuesType) => void;
+  onChangeTaskStatus: (taskId: string, status: boolean) => void;
 };
 
 export const Todolist: FC<PropsType> = ({
@@ -18,7 +19,7 @@ export const Todolist: FC<PropsType> = ({
   addTask,
   removeTask,
   setFilter,
-  ...restProps
+  onChangeTaskStatus,
 }) => {
   const [inputVal, setInputVal] = useState<string>('');
   const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
@@ -42,11 +43,17 @@ export const Todolist: FC<PropsType> = ({
 
   const tasksList: JSX.Element[] = tasks.map(t => {
     const onClickHandler = () => removeTask(t.id);
+    const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
+      onChangeTaskStatus(t.id, e.currentTarget.checked);
 
     return (
       <li key={t.id}>
         <Button name={'del'} onClick={onClickHandler} />
-        <input type='checkbox' checked={t.isDone} />
+        <input
+          type='checkbox'
+          checked={t.isDone}
+          onChange={onChangeTaskStatusHandler}
+        />
         <span>{t.title}</span>
       </li>
     );
