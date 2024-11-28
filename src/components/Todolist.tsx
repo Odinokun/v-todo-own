@@ -8,7 +8,9 @@ type PropsType = {
   date?: string;
   addTask: (title: string) => void;
   removeTask: (id: string) => void;
+  filter: FilterValuesType;
   setFilter: (val: FilterValuesType) => void;
+  onChangeTaskStatus: (taskId: string, status: boolean) => void;
 };
 
 export const Todolist: FC<PropsType> = ({
@@ -17,15 +19,22 @@ export const Todolist: FC<PropsType> = ({
   date,
   addTask,
   removeTask,
+  filter,
   setFilter,
-  ...restProps
+  onChangeTaskStatus,
 }) => {
+  const [error, setError] = useState<string>('');
   const [inputVal, setInputVal] = useState<string>('');
-  const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+  const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.currentTarget.value);
+    setError('');
+  };
 
   const addTaskHandler = () => {
-    if (!inputVal.trim()) return;
+    if (!inputVal.trim()) {
+      setError('Field is required');
+      return;
+    }
     addTask(inputVal.trim());
     setInputVal('');
   };
@@ -42,11 +51,17 @@ export const Todolist: FC<PropsType> = ({
 
   const tasksList: JSX.Element[] = tasks.map(t => {
     const onClickHandler = () => removeTask(t.id);
+    const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
+      onChangeTaskStatus(t.id, e.currentTarget.checked);
 
     return (
       <li key={t.id}>
         <Button name={'del'} onClick={onClickHandler} />
-        <input type='checkbox' checked={t.isDone} />
+        <input
+          type='checkbox'
+          checked={t.isDone}
+          onChange={onChangeTaskStatusHandler}
+        />
         <span>{t.title}</span>
       </li>
     );
@@ -60,15 +75,30 @@ export const Todolist: FC<PropsType> = ({
           value={inputVal}
           onChange={onInputChangeHandler}
           onKeyDown={onKeyPressHandler}
+          className={error ? 'error' : ''}
         />
+        <span> </span>
         <Button name={'add task'} onClick={addTaskHandler} />
+        {error && <div className='error-message'>{error}</div>}
       </div>
       <br />
 
       <div>
-        <Button name={'All'} onClick={setFilterAll} />
-        <Button name={'Active'} onClick={setFilterActive} />
-        <Button name={'Completed'} onClick={setFilterCompleted} />
+        <Button
+          name={'All'}
+          onClick={setFilterAll}
+          className={filter === 'all' ? 'active' : ''}
+        />
+        <Button
+          name={'Active'}
+          onClick={setFilterActive}
+          className={filter === 'active' ? 'active' : ''}
+        />
+        <Button
+          name={'Completed'}
+          onClick={setFilterCompleted}
+          className={filter === 'completed' ? 'active' : ''}
+        />
       </div>
       <br />
 
