@@ -12,6 +12,7 @@ type PropsType = {
   filter: FilterValuesType;
   onChangeFilter: (todolistId: string, val: FilterValuesType) => void;
   onChangeTaskStatus: (todolistId: string, taskId: string, status: boolean) => void;
+  removeTodolist: (todolistId: string) => void;
 };
 
 export const Todolist: FC<PropsType> = ({
@@ -24,9 +25,13 @@ export const Todolist: FC<PropsType> = ({
   filter,
   onChangeFilter,
   onChangeTaskStatus,
+  removeTodolist,
 }) => {
   const [error, setError] = useState<string>('');
   const [inputVal, setInputVal] = useState<string>('');
+
+  const removeTodolistHandler = () => removeTodolist(todolistId);
+
   const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.currentTarget.value);
     setError('');
@@ -80,7 +85,11 @@ export const Todolist: FC<PropsType> = ({
 
   return (
     <div>
-      <h3>{title}</h3>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <h3 style={{ marginRight: '5px' }}>{title}</h3>
+        <Button name='del' onClick={removeTodolistHandler} />
+      </div>
+
       <div>
         <input
           value={inputVal}

@@ -54,6 +54,11 @@ function App() {
     ],
   });
 
+  const removeTodolist = (todolistId: string) => {
+    setTodolists(todolists.filter(tl => tl.id !== todolistId));
+    delete allTasks[todolistId];
+  };
+
   const addTask = (todolistId: string, title: string) => {
     const newTask: TaskType = {
       id: v1(),
@@ -94,6 +99,7 @@ function App() {
             filter={tl.filter}
             onChangeFilter={onChangeFilter}
             onChangeTaskStatus={onChangeTaskStatus}
+            removeTodolist={removeTodolist}
           />
         );
       })}
