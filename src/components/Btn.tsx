@@ -6,7 +6,7 @@ type PropsType = {
   className?: string;
 };
 
-export const Button: FC<PropsType> = ({ name, onClick, className }) => {
+export const Btn: FC<PropsType> = ({ name, onClick, className }) => {
   return (
     <button className={className} onClick={onClick}>
       {name}

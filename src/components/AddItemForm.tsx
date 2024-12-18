@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
-import { Button } from './Button';
+import { Btn } from './Btn';
 
 type PropsType = {
   onClick: (title: string) => void;
@@ -37,7 +37,7 @@ export const AddItemForm: FC<PropsType> = ({ onClick }) => {
         onKeyDown={onKeyPressHandler}
         className={error ? 'error' : ''}
       />
-      <Button name={'add task'} onClick={onClickHandler} />
+      <Btn name={'add task'} onClick={onClickHandler} />
       {error && <div className='error-message'>{error}</div>}
     </div>
   );

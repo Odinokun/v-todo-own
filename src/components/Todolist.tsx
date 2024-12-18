@@ -1,8 +1,8 @@
 import { ChangeEvent, FC } from 'react';
 import { FilterValuesType, TaskType } from '../App';
-import { Button } from './Button';
 import { AddItemForm } from './AddItemForm';
 import { EditableSpan } from './EditableSpan';
+import { Btn } from './Btn';
 
 type PropsType = {
   todolistId: string;
@@ -63,7 +63,7 @@ export const Todolist: FC<PropsType> = ({
 
     return (
       <li key={t.id}>
-        <Button name={'del'} onClick={onClickHandler} />
+        <Btn name={'del'} onClick={onClickHandler} />
         <input type='checkbox' checked={t.isDone} onChange={onChangeTaskStatusHandler} />
         <EditableSpan title={t.title} callbackValue={changeTaskNameHandler} />
       </li>
@@ -72,19 +72,19 @@ export const Todolist: FC<PropsType> = ({
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div>
         <h3>
           <EditableSpan callbackValue={changeTodolistNameHandler} title={title} />
         </h3>
-        <Button name='del' onClick={removeTodolistHandler} />
+        <Btn name='del' onClick={removeTodolistHandler} />
       </div>
 
       <AddItemForm onClick={addTaskHandler} />
 
       <div>
-        <Button name={'All'} onClick={setFilterAll} className={filter === 'all' ? 'active' : ''} />
-        <Button name={'Active'} onClick={setFilterActive} className={filter === 'active' ? 'active' : ''} />
-        <Button name={'Completed'} onClick={setFilterCompleted} className={filter === 'completed' ? 'active' : ''} />
+        <Btn name={'All'} onClick={setFilterAll} className={filter === 'all' ? 'active' : ''} />
+        <Btn name={'Active'} onClick={setFilterActive} className={filter === 'active' ? 'active' : ''} />
+        <Btn name={'Completed'} onClick={setFilterCompleted} className={filter === 'completed' ? 'active' : ''} />
       </div>
       {tasksList.length ? <ul>{tasksList}</ul> : <span>No tasks</span>}
     </div>

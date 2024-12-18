@@ -101,7 +101,7 @@ function App() {
   const changeTodolistName = (id: string, title: string) => todolists.map(tl => (tl.id === id ? { ...tl, title } : tl));
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <div>
       <div>
         <h3>Add new Todolist</h3>
         <AddItemForm onClick={addNewTodolist} />
