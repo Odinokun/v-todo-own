@@ -2,6 +2,7 @@ import { ChangeEvent, FC } from 'react';
 import { FilterValuesType, TaskType } from '../App';
 import { Button } from './Button';
 import { AddItemForm } from './AddItemForm';
+import { EditableSpan } from './EditableSpan';
 
 type PropsType = {
   todolistId: string;
@@ -13,6 +14,8 @@ type PropsType = {
   onChangeFilter: (todolistId: string, val: FilterValuesType) => void;
   onChangeTaskStatus: (todolistId: string, taskId: string, status: boolean) => void;
   removeTodolist: (todolistId: string) => void;
+  changeTaskName: (todolistId: string, id: string, title: string) => void;
+  changeTodolistName: (id: string, title: string) => void;
 };
 
 export const Todolist: FC<PropsType> = ({
@@ -25,6 +28,8 @@ export const Todolist: FC<PropsType> = ({
   onChangeFilter,
   onChangeTaskStatus,
   removeTodolist,
+  changeTaskName,
+  changeTodolistName,
 }) => {
   const removeTodolistHandler = () => removeTodolist(todolistId);
   const addTaskHandler = (title: string) => addTask(todolistId, title);
@@ -46,16 +51,21 @@ export const Todolist: FC<PropsType> = ({
   const setFilterCompleted = () => onChangeFilter(todolistId, 'completed');
   // end filter
 
+  const changeTodolistNameHandler = (title: string) => changeTodolistName(todolistId, title);
+
   const tasksList: JSX.Element[] = filteredTasksArr.map(t => {
     const onClickHandler = () => removeTask(todolistId, t.id);
     const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
       onChangeTaskStatus(todolistId, t.id, e.currentTarget.checked);
+    const changeTaskNameHandler = (title: string) => {
+      changeTaskName(todolistId, t.id, title);
+    };
 
     return (
       <li key={t.id}>
         <Button name={'del'} onClick={onClickHandler} />
         <input type='checkbox' checked={t.isDone} onChange={onChangeTaskStatusHandler} />
-        <span>{t.title}</span>
+        <EditableSpan title={t.title} callbackValue={changeTaskNameHandler} />
       </li>
     );
   });
@@ -63,7 +73,9 @@ export const Todolist: FC<PropsType> = ({
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <h3 style={{ marginRight: '5px' }}>{title}</h3>
+        <h3>
+          <EditableSpan callbackValue={changeTodolistNameHandler} title={title} />
+        </h3>
         <Button name='del' onClick={removeTodolistHandler} />
       </div>
 

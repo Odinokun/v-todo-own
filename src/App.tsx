@@ -92,6 +92,14 @@ function App() {
     setAllTasks({ [id]: [], ...allTasks });
   };
 
+  const changeTaskName = (todolistId: string, id: string, title: string) =>
+    setAllTasks({
+      ...allTasks,
+      [todolistId]: allTasks[todolistId].map(t => (t.id === id ? { ...t, title } : t)),
+    });
+
+  const changeTodolistName = (id: string, title: string) => todolists.map(tl => (tl.id === id ? { ...tl, title } : tl));
+
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <div>
@@ -112,6 +120,8 @@ function App() {
             onChangeFilter={onChangeFilter}
             onChangeTaskStatus={onChangeTaskStatus}
             removeTodolist={removeTodolist}
+            changeTaskName={changeTaskName}
+            changeTodolistName={changeTodolistName}
           />
         );
       })}
