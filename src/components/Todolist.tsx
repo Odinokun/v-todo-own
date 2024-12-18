@@ -1,12 +1,12 @@
-import { KeyboardEvent, ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { FilterValuesType, TaskType } from '../App';
 import { Button } from './Button';
+import { AddItemForm } from './AddItemForm';
 
 type PropsType = {
   todolistId: string;
   title: string;
   tasks: TaskType[];
-  date?: string;
   addTask: (todolistId: string, title: string) => void;
   removeTask: (todolistId: string, id: string) => void;
   filter: FilterValuesType;
@@ -19,7 +19,6 @@ export const Todolist: FC<PropsType> = ({
   todolistId,
   title,
   tasks,
-  date,
   addTask,
   removeTask,
   filter,
@@ -27,30 +26,8 @@ export const Todolist: FC<PropsType> = ({
   onChangeTaskStatus,
   removeTodolist,
 }) => {
-  const [error, setError] = useState<string>('');
-  const [inputVal, setInputVal] = useState<string>('');
-
   const removeTodolistHandler = () => removeTodolist(todolistId);
-
-  const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputVal(e.currentTarget.value);
-    setError('');
-  };
-
-  const addTaskHandler = () => {
-    if (!inputVal.trim()) {
-      setError('Field is required');
-      return;
-    }
-    addTask(todolistId, inputVal.trim());
-    setInputVal('');
-  };
-
-  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      addTaskHandler();
-    }
-  };
+  const addTaskHandler = (title: string) => addTask(todolistId, title);
 
   // begin filter
   function tasksFilter(): TaskType[] {
@@ -90,32 +67,14 @@ export const Todolist: FC<PropsType> = ({
         <Button name='del' onClick={removeTodolistHandler} />
       </div>
 
-      <div>
-        <input
-          value={inputVal}
-          onChange={onInputChangeHandler}
-          onKeyDown={onKeyPressHandler}
-          className={error ? 'error' : ''}
-        />
-        <span> </span>
-        <Button name={'add task'} onClick={addTaskHandler} />
-        {error && <div className='error-message'>{error}</div>}
-      </div>
-      <br />
+      <AddItemForm onClick={addTaskHandler} />
 
       <div>
         <Button name={'All'} onClick={setFilterAll} className={filter === 'all' ? 'active' : ''} />
         <Button name={'Active'} onClick={setFilterActive} className={filter === 'active' ? 'active' : ''} />
         <Button name={'Completed'} onClick={setFilterCompleted} className={filter === 'completed' ? 'active' : ''} />
       </div>
-      <br />
-
       {tasksList.length ? <ul>{tasksList}</ul> : <span>No tasks</span>}
-      <br />
-
-      <strong>
-        <i>{date}</i>
-      </strong>
     </div>
   );
 };
