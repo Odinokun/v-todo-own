@@ -1,7 +1,7 @@
 import { v1 } from 'uuid';
 import { beforeEach, expect, test } from 'vitest';
 import { FilterValuesType, TodolistType } from '../App';
-import { changeFilterAC, removeTodoAC, todoReducer } from './todoReducer';
+import { changeFilterAC, removeTodoAC, todoReducer, changeTodoNameAC } from './todoReducer';
 
 const todo_1 = v1();
 const todo_2 = v1();
@@ -23,7 +23,6 @@ test('Target todolist should be delete', () => {
   expect(endState.length).toBe(2);
   expect(endState[0].id).toEqual(todo_2);
 });
-
 test('Todolist`s filter must be work', () => {
   const newFilter: FilterValuesType = 'completed';
 
@@ -31,4 +30,12 @@ test('Todolist`s filter must be work', () => {
   const endState = todoReducer(initialState, action);
 
   expect(endState[0].filter).toEqual(newFilter);
+});
+test('Todolist`s name must be change', () => {
+  const newTitle = 'New todolist';
+  const action = changeTodoNameAC(todo_1, newTitle);
+
+  const finishState = todoReducer(initialState, action);
+
+  expect(finishState[0].title).toEqual(newTitle);
 });

@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Header } from './components/Header';
-import { changeFilterAC, removeTodoAC, todoReducer } from './reducers/todoReducer';
+import { changeFilterAC, changeTodoNameAC, removeTodoAC, todoReducer } from './reducers/todoReducer';
 
 export type TaskType = {
   id: string;
@@ -29,12 +29,6 @@ function App() {
   const todo_1 = v1();
   const todo_2 = v1();
   const todo_3 = v1();
-
-  // const [todolists, setTodolists] = useState<TodolistType[]>([
-  //   { id: todo_1, title: 'Learning', filter: 'all' },
-  //   { id: todo_2, title: 'Reading', filter: 'active' },
-  //   { id: todo_3, title: 'Watching', filter: 'completed' },
-  // ]);
 
   const [todos, dispatchTodos] = useReducer(todoReducer, [
     { id: todo_1, title: 'Learning', filter: 'all' },
@@ -70,13 +64,9 @@ function App() {
     delete allTasks[todolistId];
   };
 
-  const changeFilter = (todoId: string, filter: FilterValuesType) => {
-    dispatchTodos(changeFilterAC(todoId, filter));
-  };
+  const changeFilter = (todoId: string, filter: FilterValuesType) => dispatchTodos(changeFilterAC(todoId, filter));
 
-  const changeTodoName = (id: string, title: string) => {
-    // todolists.map(tl => (tl.id === id ? { ...tl, title } : tl));
-  };
+  const changeTodoName = (id: string, title: string) => dispatchTodos(changeTodoNameAC(id, title));
 
   // ****************************************
   // ******** #TODO NEED TO CHANGE **********
@@ -120,6 +110,7 @@ function App() {
   return (
     <Box>
       <Header />
+      <button onClick={() => console.log(todos)}>qqqqqqq</button>
 
       <Container>
         <Box sx={{ py: 3 }}>
