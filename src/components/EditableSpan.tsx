@@ -1,3 +1,5 @@
+import { TextField } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import { ChangeEvent, FC, useState } from 'react';
 
 type PropsType = {
@@ -29,9 +31,18 @@ export const EditableSpan: FC<PropsType> = ({ title, callbackValue }) => {
   return (
     <>
       {editMode ? (
-        <input value={inputVal} onChange={onInputChange} onBlur={callbackValueHandler} autoFocus />
+        <TextField
+          variant='outlined'
+          size='small'
+          value={inputVal}
+          onChange={onInputChange}
+          onBlur={callbackValueHandler}
+          autoFocus
+        />
       ) : (
-        <span onDoubleClick={onEdit}>{inputVal}</span>
+        <Typography variant='inherit' component='span' onDoubleClick={onEdit}>
+          {inputVal}
+        </Typography>
       )}
     </>
   );

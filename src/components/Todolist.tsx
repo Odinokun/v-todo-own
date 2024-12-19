@@ -1,8 +1,16 @@
 import { ChangeEvent, FC } from 'react';
 import { FilterValuesType, TaskType } from '../App';
-import { Button } from './Button';
 import { AddItemForm } from './AddItemForm';
 import { EditableSpan } from './EditableSpan';
+import { Btn } from './Btn';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import CheckBox from '@mui/material/CheckBox';
 
 type PropsType = {
   todolistId: string;
@@ -62,31 +70,47 @@ export const Todolist: FC<PropsType> = ({
     };
 
     return (
-      <li key={t.id}>
-        <Button name={'del'} onClick={onClickHandler} />
-        <input type='checkbox' checked={t.isDone} onChange={onChangeTaskStatusHandler} />
-        <EditableSpan title={t.title} callbackValue={changeTaskNameHandler} />
-      </li>
+      <ListItem key={t.id} disableGutters disablePadding sx={{ opacity: t.isDone ? 0.5 : 1 }}>
+        <CheckBox checked={t.isDone} onChange={onChangeTaskStatusHandler} />
+        <Typography variant='body1' component='span' sx={{ flexGrow: 1 }}>
+          <EditableSpan title={t.title} callbackValue={changeTaskNameHandler} />
+        </Typography>
+        <IconButton size='small' color='error' onClick={onClickHandler}>
+          <DeleteIcon />
+        </IconButton>
+      </ListItem>
     );
   });
 
   return (
-    <div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <h3>
+    <Paper elevation={3} sx={{ p: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant='h6' component='h2' mb={1}>
           <EditableSpan callbackValue={changeTodolistNameHandler} title={title} />
-        </h3>
-        <Button name='del' onClick={removeTodolistHandler} />
-      </div>
+        </Typography>
+        <IconButton size='small' color='error' onClick={removeTodolistHandler}>
+          <DeleteIcon />
+        </IconButton>
+      </Box>
 
       <AddItemForm onClick={addTaskHandler} />
 
-      <div>
-        <Button name={'All'} onClick={setFilterAll} className={filter === 'all' ? 'active' : ''} />
-        <Button name={'Active'} onClick={setFilterActive} className={filter === 'active' ? 'active' : ''} />
-        <Button name={'Completed'} onClick={setFilterCompleted} className={filter === 'completed' ? 'active' : ''} />
-      </div>
-      {tasksList.length ? <ul>{tasksList}</ul> : <span>No tasks</span>}
-    </div>
+      <Box sx={{ display: 'flex', gap: 0.5 }}>
+        <Btn name={'All'} onClick={setFilterAll} variant={filter === 'all' ? 'contained' : 'outlined'} />
+        <Btn name={'Active'} onClick={setFilterActive} variant={filter === 'active' ? 'contained' : 'outlined'} />
+        <Btn
+          name={'Completed'}
+          onClick={setFilterCompleted}
+          variant={filter === 'completed' ? 'contained' : 'outlined'}
+        />
+      </Box>
+      {tasksList.length ? (
+        <List>{tasksList}</List>
+      ) : (
+        <Typography variant='h6' component='span'>
+          You have no tasks yet =(
+        </Typography>
+      )}
+    </Paper>
   );
 };
