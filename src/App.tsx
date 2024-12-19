@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { v1 } from 'uuid';
 import { Todolist } from './components/Todolist';
-import './App.css';
 import { AddItemForm } from './components/AddItemForm';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import { Header } from './components/Header';
 
 export type TaskType = {
   id: string;
@@ -101,31 +104,41 @@ function App() {
   const changeTodolistName = (id: string, title: string) => todolists.map(tl => (tl.id === id ? { ...tl, title } : tl));
 
   return (
-    <div>
-      <div>
-        <h3>Add new Todolist</h3>
-        <AddItemForm onClick={addNewTodolist} />
-      </div>
+    <Box>
+      <Header />
 
-      {todolists.map(tl => {
-        return (
-          <Todolist
-            key={tl.id}
-            todolistId={tl.id}
-            title={tl.title}
-            tasks={allTasks[tl.id]}
-            addTask={addTask}
-            removeTask={removeTask}
-            filter={tl.filter}
-            onChangeFilter={onChangeFilter}
-            onChangeTaskStatus={onChangeTaskStatus}
-            removeTodolist={removeTodolist}
-            changeTaskName={changeTaskName}
-            changeTodolistName={changeTodolistName}
-          />
-        );
-      })}
-    </div>
+      <Container>
+        <Box sx={{ py: 3 }}>
+          <Typography variant='h6' component='h2' mb={1}>
+            Add new Todolist
+          </Typography>
+          <AddItemForm onClick={addNewTodolist} />
+        </Box>
+      </Container>
+
+      <Container>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 3 }}>
+          {todolists.map(tl => {
+            return (
+              <Todolist
+                key={tl.id}
+                todolistId={tl.id}
+                title={tl.title}
+                tasks={allTasks[tl.id]}
+                addTask={addTask}
+                removeTask={removeTask}
+                filter={tl.filter}
+                onChangeFilter={onChangeFilter}
+                onChangeTaskStatus={onChangeTaskStatus}
+                removeTodolist={removeTodolist}
+                changeTaskName={changeTaskName}
+                changeTodolistName={changeTodolistName}
+              />
+            );
+          })}
+        </Box>
+      </Container>
+    </Box>
   );
 }
 

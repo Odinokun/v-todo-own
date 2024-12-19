@@ -17,6 +17,8 @@ export const Header: FC = () => {
           News
         </Typography>
         <Button color='inherit'>Login</Button>
+        <Button color='inherit'>Logout</Button>
+        <Button color='inherit'>FAQ</Button>
       </Toolbar>
     </AppBar>
   );

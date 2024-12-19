@@ -1,15 +1,16 @@
+import Button from '@mui/material/Button';
 import { FC } from 'react';
 
 type PropsType = {
   name: string;
   onClick: () => void;
-  className?: string;
+  variant?: 'contained' | 'outlined' | 'text';
 };
 
-export const Btn: FC<PropsType> = ({ name, onClick, className }) => {
+export const Btn: FC<PropsType> = ({ name, onClick, variant }) => {
   return (
-    <button className={className} onClick={onClick}>
+    <Button variant={variant} size='small' onClick={onClick}>
       {name}
-    </button>
+    </Button>
   );
 };
