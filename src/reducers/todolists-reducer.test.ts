@@ -1,4 +1,3 @@
-import { v1 } from 'uuid';
 import { expect, test } from 'vitest';
 import { FilterValuesType, TodolistType } from '../App';
 import {
@@ -13,9 +12,9 @@ import {
   todolistReducer,
 } from './todolists-reducer';
 
-const todolist_1 = v1();
-const todolist_2 = v1();
-const todolist_3 = v1();
+const todolist_1 = crypto.randomUUID();
+const todolist_2 = crypto.randomUUID();
+const todolist_3 = crypto.randomUUID();
 
 const initialState: TodolistType[] = [
   { id: todolist_1, title: 'Learning', filter: 'all' },
@@ -45,7 +44,7 @@ test('Todolist`s name must be changed', () => {
   expect(finishState[0].title).toEqual(newTitle);
 });
 test('New todolist must be added', () => {
-  const newId = v1();
+  const newId = crypto.randomUUID();
   const newTitle = 'New todolist title';
   const action: AddTodolistACType = addTodolistAC(newId, newTitle);
   const endState = todolistReducer(initialState, action);

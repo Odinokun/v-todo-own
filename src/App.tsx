@@ -1,5 +1,4 @@
 import { useReducer, useState } from 'react';
-import { v1 } from 'uuid';
 import { Todolist } from './components/Todolist';
 import { AddItemForm } from './components/AddItemForm';
 import Box from '@mui/material/Box';
@@ -26,9 +25,9 @@ export type AllTasksType = {
 };
 
 function App() {
-  const todolist_1 = v1();
-  const todolist_2 = v1();
-  const todolist_3 = v1();
+  const todolist_1 = crypto.randomUUID();
+  const todolist_2 = crypto.randomUUID();
+  const todolist_3 = crypto.randomUUID();
 
   const [todos, dispatchTodolists] = useReducer(todolistReducer, [
     { id: todolist_1, title: 'Learning', filter: 'all' },
@@ -37,24 +36,24 @@ function App() {
   ]);
   const [allTasks, setAllTasks] = useState<AllTasksType>({
     [todolist_1]: [
-      { id: v1(), title: 'HTML&CSS', isDone: true },
-      { id: v1(), title: 'JS', isDone: true },
-      { id: v1(), title: 'React', isDone: false },
-      { id: v1(), title: 'Rest API', isDone: false },
-      { id: v1(), title: 'GraphQL', isDone: false },
-      { id: v1(), title: 'Redux', isDone: false },
-      { id: v1(), title: 'Unit tests', isDone: true },
+      { id: crypto.randomUUID(), title: 'HTML&CSS', isDone: true },
+      { id: crypto.randomUUID(), title: 'JS', isDone: true },
+      { id: crypto.randomUUID(), title: 'React', isDone: false },
+      { id: crypto.randomUUID(), title: 'Rest API', isDone: false },
+      { id: crypto.randomUUID(), title: 'GraphQL', isDone: false },
+      { id: crypto.randomUUID(), title: 'Redux', isDone: false },
+      { id: crypto.randomUUID(), title: 'Unit tests', isDone: true },
     ],
     [todolist_2]: [
-      { id: v1(), title: 'Robinson Crusoe', isDone: true },
-      { id: v1(), title: 'I am Jacky Chan', isDone: true },
-      { id: v1(), title: 'The Hobbit', isDone: false },
-      { id: v1(), title: 'The Silmarillion', isDone: false },
+      { id: crypto.randomUUID(), title: 'Robinson Crusoe', isDone: true },
+      { id: crypto.randomUUID(), title: 'I am Jacky Chan', isDone: true },
+      { id: crypto.randomUUID(), title: 'The Hobbit', isDone: false },
+      { id: crypto.randomUUID(), title: 'The Silmarillion', isDone: false },
     ],
     [todolist_3]: [
-      { id: v1(), title: 'The Matrix', isDone: true },
-      { id: v1(), title: 'The Lord of the Rings', isDone: true },
-      { id: v1(), title: 'The Godfather', isDone: false },
+      { id: crypto.randomUUID(), title: 'The Matrix', isDone: true },
+      { id: crypto.randomUUID(), title: 'The Lord of the Rings', isDone: true },
+      { id: crypto.randomUUID(), title: 'The Godfather', isDone: false },
     ],
   });
 
@@ -62,20 +61,14 @@ function App() {
     dispatchTodolists(removeTodolistAC(todolistId));
     delete allTasks[todolistId];
   };
-
   const changeFilter = (todolistId: string, filter: FilterValuesType) =>
     dispatchTodolists(changeFilterAC(todolistId, filter));
-
   const changeTodoName = (todolistId: string, title: string) =>
     dispatchTodolists(changeTodolistNameAC(todolistId, title));
 
-  // ****************************************
-  // ******** #TODO NEED TO CHANGE **********
-  // ****************************************
-
   const addTask = (todolistId: string, title: string) => {
     const newTask: TaskType = {
-      id: v1(),
+      id: crypto.randomUUID(),
       title,
       isDone: false,
     };
@@ -84,6 +77,9 @@ function App() {
       [todolistId]: [newTask, ...allTasks[todolistId]],
     });
   };
+  // ****************************************
+  // ******** #TODO NEED TO CHANGE **********
+  // ****************************************
 
   const removeTask = (todolistId: string, id: string) =>
     setAllTasks({ ...allTasks, [todolistId]: allTasks[todolistId].filter(t => t.id !== id) });
@@ -96,7 +92,7 @@ function App() {
   };
 
   const addNewTodolist = (title: string) => {
-    const id = v1();
+    const id = crypto.randomUUID();
     const newTodolist: TodolistType = { id, title, filter: 'all' };
     // setTodolists([newTodolist, ...todolists]);
     setAllTasks({ [id]: [], ...allTasks });
