@@ -20,7 +20,7 @@ type PropsType = {
   removeTask: (todolistId: string, id: string) => void;
   filter: FilterValuesType;
   onChangeFilter: (todolistId: string, val: FilterValuesType) => void;
-  onChangeTaskStatus: (todolistId: string, taskId: string, status: boolean) => void;
+  changeTaskStatus: (todolistId: string, id: string, status: boolean) => void;
   removeTodolist: (todolistId: string) => void;
   changeTaskName: (todolistId: string, id: string, title: string) => void;
   changeTodolistName: (id: string, title: string) => void;
@@ -34,7 +34,7 @@ export const Todolist: FC<PropsType> = ({
   removeTask,
   filter,
   onChangeFilter,
-  onChangeTaskStatus,
+  changeTaskStatus,
   removeTodolist,
   changeTaskName,
   changeTodolistName,
@@ -63,15 +63,15 @@ export const Todolist: FC<PropsType> = ({
 
   const tasksList: JSX.Element[] = filteredTasksArr.map(t => {
     const onClickHandler = () => removeTask(todolistId, t.id);
-    const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-      onChangeTaskStatus(todolistId, t.id, e.currentTarget.checked);
+    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
+      changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
     const changeTaskNameHandler = (title: string) => {
       changeTaskName(todolistId, t.id, title);
     };
 
     return (
       <ListItem key={t.id} disableGutters disablePadding sx={{ opacity: t.isDone ? 0.5 : 1 }}>
-        <CheckBox checked={t.isDone} onChange={onChangeTaskStatusHandler} />
+        <CheckBox checked={t.isDone} onChange={changeTaskStatusHandler} />
         <Typography variant='body1' component='span' sx={{ flexGrow: 1 }}>
           <EditableSpan title={t.title} callbackValue={changeTaskNameHandler} />
         </Typography>

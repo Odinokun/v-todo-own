@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Header } from './components/Header';
 import { changeFilterAC, changeTodolistNameAC, removeTodolistAC, todolistReducer } from './reducers/todolists-reducer';
-import { addTaskAC, removeTaskAC, tasksReducer } from './reducers/tasks-reducer';
+import { addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer } from './reducers/tasks-reducer';
 
 export type TaskType = {
   id: string;
@@ -69,16 +69,12 @@ function App() {
 
   const addTask = (todolistId: string, title: string) => dispatchTasks(addTaskAC(todolistId, title));
   const removeTask = (todolistId: string, id: string) => dispatchTasks(removeTaskAC(todolistId, id));
+  const changeTaskStatus = (todolistId: string, id: string, status: boolean) =>
+    dispatchTasks(changeTaskStatusAC(todolistId, id, status));
+
   // ****************************************
   // ******** #TODO NEED TO CHANGE **********
   // ****************************************
-
-  const onChangeTaskStatus = (todolistId: string, taskId: string, status: boolean) => {
-    // setAllTasks({
-    //   ...allTasks,
-    //   [todolistId]: allTasks[todolistId].map(t => (t.id === taskId ? { ...t, isDone: status } : t)),
-    // });
-  };
 
   const addNewTodolist = (title: string) => {
     const id = crypto.randomUUID();
@@ -119,7 +115,7 @@ function App() {
                 removeTask={removeTask}
                 filter={tl.filter}
                 onChangeFilter={changeFilter}
-                onChangeTaskStatus={onChangeTaskStatus}
+                changeTaskStatus={changeTaskStatus}
                 removeTodolist={removeTodo}
                 changeTaskName={changeTaskName}
                 changeTodolistName={changeTodoName}

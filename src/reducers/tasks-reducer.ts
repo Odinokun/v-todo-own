@@ -2,7 +2,8 @@ import { AllTasksType, TaskType } from '../App';
 
 export type AddTaskACType = ReturnType<typeof addTaskAC>;
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
-type ActionsType = AddTaskACType | RemoveTaskACType;
+export type ChangeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
+type ActionsType = AddTaskACType | RemoveTaskACType | ChangeTaskStatusACType;
 
 export const tasksReducer = (state: AllTasksType, action: ActionsType) => {
   switch (action.type) {
@@ -14,6 +15,10 @@ export const tasksReducer = (state: AllTasksType, action: ActionsType) => {
     case 'REMOVE-TASK': {
       const { todolistId, id } = action.payload;
       return { ...state, [todolistId]: state[todolistId].filter(t => t.id !== id) };
+    }
+    case 'CHANGE-TASK-STATUS': {
+      const { todolistId, id, status } = action.payload;
+      return { ...state, [todolistId]: state[todolistId].map(t => (t.id === id ? { ...t, isDone: status } : t)) };
     }
     default:
       console.log('I don`t understand this action type');
@@ -36,6 +41,16 @@ export const removeTaskAC = (todolistId: string, id: string) => {
     payload: {
       todolistId,
       id,
+    },
+  } as const;
+};
+export const changeTaskStatusAC = (todolistId: string, id: string, status: boolean) => {
+  return {
+    type: 'CHANGE-TASK-STATUS',
+    payload: {
+      todolistId,
+      id,
+      status,
     },
   } as const;
 };
