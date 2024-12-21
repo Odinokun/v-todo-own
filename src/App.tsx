@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Header } from './components/Header';
-import { changeFilterAC, changeTodoNameAC, removeTodoAC, todoReducer } from './reducers/todoReducer';
+import { changeFilterAC, changeTodolistNameAC, removeTodolistAC, todolistReducer } from './reducers/todolists-reducer';
 
 export type TaskType = {
   id: string;
@@ -26,18 +26,17 @@ export type AllTasksType = {
 };
 
 function App() {
-  const todo_1 = v1();
-  const todo_2 = v1();
-  const todo_3 = v1();
+  const todolist_1 = v1();
+  const todolist_2 = v1();
+  const todolist_3 = v1();
 
-  const [todos, dispatchTodos] = useReducer(todoReducer, [
-    { id: todo_1, title: 'Learning', filter: 'all' },
-    { id: todo_2, title: 'Reading', filter: 'active' },
-    { id: todo_3, title: 'Watching', filter: 'completed' },
+  const [todos, dispatchTodolists] = useReducer(todolistReducer, [
+    { id: todolist_1, title: 'Learning', filter: 'all' },
+    { id: todolist_2, title: 'Reading', filter: 'active' },
+    { id: todolist_3, title: 'Watching', filter: 'completed' },
   ]);
-
   const [allTasks, setAllTasks] = useState<AllTasksType>({
-    [todo_1]: [
+    [todolist_1]: [
       { id: v1(), title: 'HTML&CSS', isDone: true },
       { id: v1(), title: 'JS', isDone: true },
       { id: v1(), title: 'React', isDone: false },
@@ -46,13 +45,13 @@ function App() {
       { id: v1(), title: 'Redux', isDone: false },
       { id: v1(), title: 'Unit tests', isDone: true },
     ],
-    [todo_2]: [
+    [todolist_2]: [
       { id: v1(), title: 'Robinson Crusoe', isDone: true },
       { id: v1(), title: 'I am Jacky Chan', isDone: true },
       { id: v1(), title: 'The Hobbit', isDone: false },
       { id: v1(), title: 'The Silmarillion', isDone: false },
     ],
-    [todo_3]: [
+    [todolist_3]: [
       { id: v1(), title: 'The Matrix', isDone: true },
       { id: v1(), title: 'The Lord of the Rings', isDone: true },
       { id: v1(), title: 'The Godfather', isDone: false },
@@ -60,13 +59,15 @@ function App() {
   });
 
   const removeTodo = (todolistId: string) => {
-    dispatchTodos(removeTodoAC(todolistId));
+    dispatchTodolists(removeTodolistAC(todolistId));
     delete allTasks[todolistId];
   };
 
-  const changeFilter = (todoId: string, filter: FilterValuesType) => dispatchTodos(changeFilterAC(todoId, filter));
+  const changeFilter = (todolistId: string, filter: FilterValuesType) =>
+    dispatchTodolists(changeFilterAC(todolistId, filter));
 
-  const changeTodoName = (id: string, title: string) => dispatchTodos(changeTodoNameAC(id, title));
+  const changeTodoName = (todolistId: string, title: string) =>
+    dispatchTodolists(changeTodolistNameAC(todolistId, title));
 
   // ****************************************
   // ******** #TODO NEED TO CHANGE **********
@@ -110,8 +111,6 @@ function App() {
   return (
     <Box>
       <Header />
-      <button onClick={() => console.log(todos)}>qqqqqqq</button>
-
       <Container>
         <Box sx={{ py: 3 }}>
           <Typography variant='h6' component='h2' mb={1}>
