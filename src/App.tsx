@@ -5,8 +5,21 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Header } from './components/Header';
-import { changeFilterAC, changeTodolistNameAC, removeTodolistAC, todolistReducer } from './reducers/todolists-reducer';
-import { addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer } from './reducers/tasks-reducer';
+import {
+  addNewTodolistAC,
+  changeFilterAC,
+  changeTodolistNameAC,
+  removeTodolistAC,
+  todolistReducer,
+} from './reducers/todolists-reducer';
+import {
+  addNewTasksAC,
+  addTaskAC,
+  changeTaskNameAC,
+  changeTaskStatusAC,
+  removeTaskAC,
+  tasksReducer,
+} from './reducers/tasks-reducer';
 
 export type TaskType = {
   id: string;
@@ -71,23 +84,13 @@ function App() {
   const removeTask = (todolistId: string, id: string) => dispatchTasks(removeTaskAC(todolistId, id));
   const changeTaskStatus = (todolistId: string, id: string, status: boolean) =>
     dispatchTasks(changeTaskStatusAC(todolistId, id, status));
-
-  // ****************************************
-  // ******** #TODO NEED TO CHANGE **********
-  // ****************************************
+  const changeTaskName = (todolistId: string, id: string, title: string) =>
+    dispatchTasks(changeTaskNameAC(todolistId, id, title));
 
   const addNewTodolist = (title: string) => {
     const id = crypto.randomUUID();
-    const newTodolist: TodolistType = { id, title, filter: 'all' };
-    // setTodolists([newTodolist, ...todolists]);
-    // setAllTasks({ [id]: [], ...allTasks });
-  };
-
-  const changeTaskName = (todolistId: string, id: string, title: string) => {
-    // setAllTasks({
-    //   ...allTasks,
-    //   [todolistId]: allTasks[todolistId].map(t => (t.id === id ? { ...t, title } : t)),
-    // });
+    dispatchTodolists(addNewTodolistAC(id, title));
+    dispatchTasks(addNewTasksAC(id));
   };
 
   return (
@@ -114,7 +117,7 @@ function App() {
                 addTask={addTask}
                 removeTask={removeTask}
                 filter={tl.filter}
-                onChangeFilter={changeFilter}
+                changeFilter={changeFilter}
                 changeTaskStatus={changeTaskStatus}
                 removeTodolist={removeTodo}
                 changeTaskName={changeTaskName}

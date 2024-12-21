@@ -1,7 +1,11 @@
 import { expect, test } from 'vitest';
 import {
+  addNewTasksAC,
+  AddNewTasksACType,
   addTaskAC,
   AddTaskACType,
+  changeTaskNameAC,
+  ChangeTaskNameACType,
   changeTaskStatusAC,
   ChangeTaskStatusACType,
   removeTaskAC,
@@ -60,4 +64,19 @@ test('Task status must be changed', () => {
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todolist_1][0].isDone).toBe(false);
+});
+test('Task name must be changed', () => {
+  const id = initialState[todolist_1][0].id;
+  const title = 'New task title';
+  const action: ChangeTaskNameACType = changeTaskNameAC(todolist_1, id, title);
+  const endState = tasksReducer(initialState, action);
+
+  expect(endState[todolist_1][0].title).toEqual(title);
+});
+test('New tasks must be added', () => {
+  const id = crypto.randomUUID();
+  const action: AddNewTasksACType = addNewTasksAC(id);
+  const endState = tasksReducer(initialState, action);
+
+  expect(endState[id].length).toBe(0);
 });

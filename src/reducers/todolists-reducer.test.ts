@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
 import { FilterValuesType, TodolistType } from '../App';
 import {
-  addTodolistAC,
-  AddTodolistACType,
+  addNewTodolistAC,
+  AddNewTodolistACType,
   changeFilterAC,
   ChangeFilterACType,
   changeTodolistNameAC,
@@ -46,7 +46,7 @@ test('Todolist`s name must be changed', () => {
 test('New todolist must be added', () => {
   const newId = crypto.randomUUID();
   const newTitle = 'New todolist title';
-  const action: AddTodolistACType = addTodolistAC(newId, newTitle);
+  const action: AddNewTodolistACType = addNewTodolistAC(newId, newTitle);
   const endState = todolistReducer(initialState, action);
 
   expect(endState.length).toBe(4);

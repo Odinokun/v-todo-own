@@ -19,7 +19,7 @@ type PropsType = {
   addTask: (todolistId: string, title: string) => void;
   removeTask: (todolistId: string, id: string) => void;
   filter: FilterValuesType;
-  onChangeFilter: (todolistId: string, val: FilterValuesType) => void;
+  changeFilter: (todolistId: string, val: FilterValuesType) => void;
   changeTaskStatus: (todolistId: string, id: string, status: boolean) => void;
   removeTodolist: (todolistId: string) => void;
   changeTaskName: (todolistId: string, id: string, title: string) => void;
@@ -33,7 +33,7 @@ export const Todolist: FC<PropsType> = ({
   addTask,
   removeTask,
   filter,
-  onChangeFilter,
+  changeFilter,
   changeTaskStatus,
   removeTodolist,
   changeTaskName,
@@ -54,9 +54,9 @@ export const Todolist: FC<PropsType> = ({
     }
   }
   const filteredTasksArr = tasksFilter();
-  const setFilterAll = () => onChangeFilter(todolistId, 'all');
-  const setFilterActive = () => onChangeFilter(todolistId, 'active');
-  const setFilterCompleted = () => onChangeFilter(todolistId, 'completed');
+  const setFilterAll = () => changeFilter(todolistId, 'all');
+  const setFilterActive = () => changeFilter(todolistId, 'active');
+  const setFilterCompleted = () => changeFilter(todolistId, 'completed');
   // end filter
 
   const changeTodolistNameHandler = (title: string) => changeTodolistName(todolistId, title);

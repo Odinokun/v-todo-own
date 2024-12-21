@@ -3,7 +3,10 @@ import { AllTasksType, TaskType } from '../App';
 export type AddTaskACType = ReturnType<typeof addTaskAC>;
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
 export type ChangeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>;
-type ActionsType = AddTaskACType | RemoveTaskACType | ChangeTaskStatusACType;
+export type ChangeTaskNameACType = ReturnType<typeof changeTaskNameAC>;
+export type AddNewTasksACType = ReturnType<typeof addNewTasksAC>;
+
+type ActionsType = AddTaskACType | RemoveTaskACType | ChangeTaskStatusACType | ChangeTaskNameACType | AddNewTasksACType;
 
 export const tasksReducer = (state: AllTasksType, action: ActionsType) => {
   switch (action.type) {
@@ -19,6 +22,14 @@ export const tasksReducer = (state: AllTasksType, action: ActionsType) => {
     case 'CHANGE-TASK-STATUS': {
       const { todolistId, id, status } = action.payload;
       return { ...state, [todolistId]: state[todolistId].map(t => (t.id === id ? { ...t, isDone: status } : t)) };
+    }
+    case 'CHANGE-TASK-NAME': {
+      const { todolistId, id, title } = action.payload;
+      return { ...state, [todolistId]: state[todolistId].map(t => (t.id === id ? { ...t, title } : t)) };
+    }
+    case 'ADD-NEW-TASKS': {
+      const { id } = action.payload;
+      return { [id]: [], ...state };
     }
     default:
       console.log('I don`t understand this action type');
@@ -52,5 +63,21 @@ export const changeTaskStatusAC = (todolistId: string, id: string, status: boole
       id,
       status,
     },
+  } as const;
+};
+export const changeTaskNameAC = (todolistId: string, id: string, title: string) => {
+  return {
+    type: 'CHANGE-TASK-NAME',
+    payload: {
+      todolistId,
+      id,
+      title,
+    },
+  } as const;
+};
+export const addNewTasksAC = (id: string) => {
+  return {
+    type: 'ADD-NEW-TASKS',
+    payload: { id },
   } as const;
 };
