@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { TaskType } from '../App';
-import { addTaskAC, AddTaskACType, tasksReducer } from './tasks-reducer';
+import { addTaskAC, AddTaskACType, removeTaskAC, RemoveTaskACType, tasksReducer } from './tasks-reducer';
 
 const todolist_1 = crypto.randomUUID();
 const todolist_2 = crypto.randomUUID();
@@ -37,4 +37,13 @@ test('Task must be added', () => {
   expect(endState[todolist_1].length).toBe(8);
   expect(endState[todolist_1][0].title).toEqual(title);
   expect(endState[todolist_1][0].isDone).toBe(false);
+});
+test('Task must be removed', () => {
+  const id = initialState[todolist_1][0].id;
+  const title = initialState[todolist_1][1].title;
+  const action: RemoveTaskACType = removeTaskAC(todolist_1, id);
+  const endState = tasksReducer(initialState, action);
+
+  expect(endState[todolist_1].length).toBe(6);
+  expect(endState[todolist_1][0].title).toEqual(title);
 });
