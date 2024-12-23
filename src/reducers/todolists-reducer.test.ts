@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest';
+import { beforeEach, expect, test } from 'vitest';
 import { FilterValuesType, TodolistType } from '../App';
 import {
   addNewTodolistAC,
@@ -12,44 +12,46 @@ import {
   todolistReducer,
 } from './todolists-reducer';
 
-const todolist_1 = crypto.randomUUID();
-const todolist_2 = crypto.randomUUID();
-const todolist_3 = crypto.randomUUID();
-
-const initialState: TodolistType[] = [
-  { id: todolist_1, title: 'Learning', filter: 'all' },
-  { id: todolist_2, title: 'Reading', filter: 'active' },
-  { id: todolist_3, title: 'Watching', filter: 'completed' },
+const state: TodolistType[] = [
+  { id: '1', title: 'Apple', filter: 'all' },
+  { id: '2', title: 'Linux', filter: 'active' },
 ];
+let initialState: TodolistType[];
+beforeEach(() => {
+  initialState = state;
+});
 
 test('Target todolist should be deleted', () => {
-  const action: RemoveTodolistACType = removeTodolistAC(todolist_1);
+  const action: RemoveTodolistACType = removeTodolistAC('1');
   const endState = todolistReducer(initialState, action);
 
-  expect(endState.length).toBe(2);
-  expect(endState[0].id).toEqual(todolist_2);
+  expect(endState.length).toBe(1);
+  expect(endState[0].id).toBe('2');
 });
+
 test('Todolist`s filter must be worked', () => {
   const newFilter: FilterValuesType = 'completed';
-  const action: ChangeFilterACType = changeFilterAC(todolist_1, newFilter);
-  const endState = todolistReducer(initialState, action);
 
-  expect(endState[0].filter).toEqual(newFilter);
+  const action: ChangeFilterACType = changeFilterAC('1', newFilter);
+  const endState: TodolistType[] = todolistReducer(initialState, action);
+
+  expect(endState[0].filter).toBe('completed');
+  expect(endState[1].filter).toBe('active');
 });
+
 test('Todolist`s name must be changed', () => {
-  const newTitle = 'New todolist';
-  const action: ChangeTodoNameACType = changeTodolistNameAC(todolist_1, newTitle);
+  const action: ChangeTodoNameACType = changeTodolistNameAC('1', 'Windows');
   const finishState = todolistReducer(initialState, action);
 
-  expect(finishState[0].title).toEqual(newTitle);
+  expect(finishState[0].title).toBe('Windows');
+  expect(finishState[1].title).toBe('Linux');
 });
+
 test('New todolist must be added', () => {
-  const newId = crypto.randomUUID();
-  const newTitle = 'New todolist title';
-  const action: AddNewTodolistACType = addNewTodolistAC(newId, newTitle);
+  const action: AddNewTodolistACType = addNewTodolistAC('3', 'Windows');
   const endState = todolistReducer(initialState, action);
 
-  expect(endState.length).toBe(4);
-  expect(endState[0].title).toEqual(newTitle);
+  expect(endState.length).toBe(3);
+  expect(endState[0].title).toEqual('Windows');
   expect(endState[0].filter).toBe('all');
 });
