@@ -48,7 +48,7 @@ test('Todolist`s name must be changed', () => {
 });
 
 test('New todolist must be added', () => {
-  const action: AddNewTodolistACType = addNewTodolistAC('3', 'Windows');
+  const action: AddNewTodolistACType = addNewTodolistAC('Windows');
   const endState = todolistReducer(initialState, action);
 
   expect(endState.length).toBe(3);

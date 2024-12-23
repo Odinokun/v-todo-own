@@ -49,9 +49,9 @@ export const changeTodolistNameAC = (id: string, title: string) => {
     payload: { id, title },
   } as const;
 };
-export const addNewTodolistAC = (id: string, title: string) => {
+export const addNewTodolistAC = (title: string) => {
   return {
     type: 'ADD-NEW-TODOLIST',
-    payload: { id, title },
+    payload: { id: crypto.randomUUID(), title },
   } as const;
 };

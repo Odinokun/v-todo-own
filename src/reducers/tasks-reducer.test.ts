@@ -1,7 +1,5 @@
 import { beforeEach, expect, test } from 'vitest';
 import {
-  addNewTasksAC,
-  AddNewTasksACType,
   addTaskAC,
   AddTaskACType,
   changeTaskNameAC,
@@ -13,6 +11,7 @@ import {
   tasksReducer,
 } from './tasks-reducer';
 import { AllTasksType } from '../App';
+import { addNewTodolistAC, AddNewTodolistACType, removeTodolistAC, RemoveTodolistACType } from './todolists-reducer';
 
 const todolist_1 = crypto.randomUUID();
 const todolist_2 = crypto.randomUUID();
@@ -66,9 +65,26 @@ test('Task name must be changed', () => {
   expect(endState[todolist_2][0].title).toBe('Audi');
 });
 
-test('New tasks must be added', () => {
-  // const id = crypto.randomUUID();
-  // const action: AddNewTasksACType = addNewTasksAC(id);
-  // const endState = tasksReducer(initialState, action);
-  // expect(endState[id].length).toBe(0);
+test('New key with tasks array must be added when new todolist was added', () => {
+  const action: AddNewTodolistACType = addNewTodolistAC('Title does`t matter');
+  const endState: AllTasksType = tasksReducer(initialState, action);
+
+  const keys = Object.keys(endState);
+  const newKey = keys.find(k => k !== todolist_1 && k !== todolist_2);
+  if (!newKey) {
+    throw Error('New key must be added!');
+  }
+
+  expect(keys.length).toBe(3);
+  expect(endState[newKey]).toEqual([]);
+});
+
+test('Key and task`s array must be deleted when we deleting todolist', () => {
+  const action: RemoveTodolistACType = removeTodolistAC(todolist_1);
+  const endState: AllTasksType = tasksReducer(initialState, action);
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(1);
+  expect(endState[todolist_1]).toBeUndefined();
 });
