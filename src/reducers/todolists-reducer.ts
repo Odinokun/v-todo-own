@@ -40,27 +40,18 @@ export const removeTodolistAC = (id: string) => {
 export const changeFilterAC = (id: string, filter: FilterValuesType) => {
   return {
     type: 'CHANGE-FILTER',
-    payload: {
-      id,
-      filter,
-    },
+    payload: { id, filter },
   } as const;
 };
 export const changeTodolistNameAC = (id: string, title: string) => {
   return {
     type: 'CHANGE-TODOLIST-NAME',
-    payload: {
-      id,
-      title,
-    },
+    payload: { id, title },
   } as const;
 };
-export const addNewTodolistAC = (id: string, title: string) => {
+export const addNewTodolistAC = (title: string) => {
   return {
     type: 'ADD-NEW-TODOLIST',
-    payload: {
-      id,
-      title,
-    },
+    payload: { id: crypto.randomUUID(), title },
   } as const;
 };

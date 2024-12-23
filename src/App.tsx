@@ -12,14 +12,7 @@ import {
   removeTodolistAC,
   todolistReducer,
 } from './reducers/todolists-reducer';
-import {
-  addNewTasksAC,
-  addTaskAC,
-  changeTaskNameAC,
-  changeTaskStatusAC,
-  removeTaskAC,
-  tasksReducer,
-} from './reducers/tasks-reducer';
+import { addTaskAC, changeTaskNameAC, changeTaskStatusAC, removeTaskAC, tasksReducer } from './reducers/tasks-reducer';
 
 export type TaskType = {
   id: string;
@@ -71,10 +64,17 @@ function App() {
     ],
   });
 
+  // FIX: removeTodo function does't work correctly
   const removeTodo = (todolistId: string) => {
     dispatchTodolists(removeTodolistAC(todolistId));
-    delete allTasks[todolistId];
+    // delete allTasks[todolistId];
   };
+  // FIX: addNewTodolist function does't work correctly
+  const addNewTodolist = (title: string) => {
+    dispatchTodolists(addNewTodolistAC(title));
+    // dispatchTasks(addNewTasksAC(id));
+  };
+
   const changeFilter = (todolistId: string, filter: FilterValuesType) =>
     dispatchTodolists(changeFilterAC(todolistId, filter));
   const changeTodoName = (todolistId: string, title: string) =>
@@ -86,12 +86,6 @@ function App() {
     dispatchTasks(changeTaskStatusAC(todolistId, id, status));
   const changeTaskName = (todolistId: string, id: string, title: string) =>
     dispatchTasks(changeTaskNameAC(todolistId, id, title));
-
-  const addNewTodolist = (title: string) => {
-    const id = crypto.randomUUID();
-    dispatchTodolists(addNewTodolistAC(id, title));
-    dispatchTasks(addNewTasksAC(id));
-  };
 
   return (
     <Box>
