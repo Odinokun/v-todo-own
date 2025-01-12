@@ -96,8 +96,16 @@ export const Todolist: FC<PropsType> = ({
       <AddItemForm onClick={addTaskHandler} />
 
       <Box sx={{ display: 'flex', gap: 0.5 }}>
-        <Btn name={'All'} onClick={setFilterAll} variant={filter === 'all' ? 'contained' : 'outlined'} />
-        <Btn name={'Active'} onClick={setFilterActive} variant={filter === 'active' ? 'contained' : 'outlined'} />
+        <Btn
+          name={'All'}
+          onClick={setFilterAll}
+          variant={filter === 'all' ? 'contained' : 'outlined'}
+        />
+        <Btn
+          name={'Active'}
+          onClick={setFilterActive}
+          variant={filter === 'active' ? 'contained' : 'outlined'}
+        />
         <Btn
           name={'Completed'}
           onClick={setFilterCompleted}

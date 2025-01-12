@@ -11,7 +11,12 @@ import {
   tasksReducer,
 } from './tasks-reducer';
 import { AllTasksType } from '../App';
-import { addNewTodolistAC, AddNewTodolistACType, removeTodolistAC, RemoveTodolistACType } from './todolists-reducer';
+import {
+  addNewTodolistAC,
+  AddNewTodolistACType,
+  removeTodolistAC,
+  RemoveTodolistACType,
+} from './todolists-reducer';
 
 const todolist_1 = crypto.randomUUID();
 const todolist_2 = crypto.randomUUID();
