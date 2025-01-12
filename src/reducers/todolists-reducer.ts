@@ -5,7 +5,11 @@ export type ChangeFilterACType = ReturnType<typeof changeFilterAC>;
 export type ChangeTodoNameACType = ReturnType<typeof changeTodolistNameAC>;
 export type AddNewTodolistACType = ReturnType<typeof addNewTodolistAC>;
 
-type ActionsType = RemoveTodolistACType | ChangeFilterACType | ChangeTodoNameACType | AddNewTodolistACType;
+type ActionsType =
+  | RemoveTodolistACType
+  | ChangeFilterACType
+  | ChangeTodoNameACType
+  | AddNewTodolistACType;
 
 export const todolistReducer = (state: TodolistType[], action: ActionsType): TodolistType[] => {
   switch (action.type) {

@@ -12,7 +12,13 @@ import {
   removeTodolistAC,
   todolistReducer,
 } from './reducers/todolists-reducer';
-import { addTaskAC, changeTaskNameAC, changeTaskStatusAC, removeTaskAC, tasksReducer } from './reducers/tasks-reducer';
+import {
+  addTaskAC,
+  changeTaskNameAC,
+  changeTaskStatusAC,
+  removeTaskAC,
+  tasksReducer,
+} from './reducers/tasks-reducer';
 
 export type TaskType = {
   id: string;
@@ -80,8 +86,10 @@ function App() {
   const changeTodoName = (todolistId: string, title: string) =>
     dispatchTodolists(changeTodolistNameAC(todolistId, title));
 
-  const addTask = (todolistId: string, title: string) => dispatchTasks(addTaskAC(todolistId, title));
-  const removeTask = (todolistId: string, id: string) => dispatchTasks(removeTaskAC(todolistId, id));
+  const addTask = (todolistId: string, title: string) =>
+    dispatchTasks(addTaskAC(todolistId, title));
+  const removeTask = (todolistId: string, id: string) =>
+    dispatchTasks(removeTaskAC(todolistId, id));
   const changeTaskStatus = (todolistId: string, id: string, status: boolean) =>
     dispatchTasks(changeTaskStatusAC(todolistId, id, status));
   const changeTaskName = (todolistId: string, id: string, title: string) =>
