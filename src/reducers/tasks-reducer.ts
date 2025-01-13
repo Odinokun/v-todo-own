@@ -1,5 +1,11 @@
 import { AllTasksType, TaskType } from '../App';
-import { AddNewTodolistACType, RemoveTodolistACType } from './todolists-reducer';
+import {
+  AddNewTodolistACType,
+  RemoveTodolistACType,
+  todolist_1,
+  todolist_2,
+  todolist_3,
+} from './todolists-reducer';
 
 export type AddTaskACType = ReturnType<typeof addTaskAC>;
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>;
@@ -14,7 +20,33 @@ type ActionsType =
   | AddNewTodolistACType
   | RemoveTodolistACType;
 
-export const tasksReducer = (state: AllTasksType, action: ActionsType) => {
+const initialState: AllTasksType = {
+  [todolist_1]: [
+    { id: crypto.randomUUID(), title: 'HTML&CSS', isDone: true },
+    { id: crypto.randomUUID(), title: 'JS', isDone: true },
+    { id: crypto.randomUUID(), title: 'React', isDone: false },
+    { id: crypto.randomUUID(), title: 'Rest API', isDone: false },
+    { id: crypto.randomUUID(), title: 'GraphQL', isDone: false },
+    { id: crypto.randomUUID(), title: 'Redux', isDone: false },
+    { id: crypto.randomUUID(), title: 'Unit tests', isDone: true },
+  ],
+  [todolist_2]: [
+    { id: crypto.randomUUID(), title: 'Robinson Crusoe', isDone: true },
+    { id: crypto.randomUUID(), title: 'I am Jacky Chan', isDone: true },
+    { id: crypto.randomUUID(), title: 'The Hobbit', isDone: false },
+    { id: crypto.randomUUID(), title: 'The Silmarillion', isDone: false },
+  ],
+  [todolist_3]: [
+    { id: crypto.randomUUID(), title: 'The Matrix', isDone: true },
+    { id: crypto.randomUUID(), title: 'The Lord of the Rings', isDone: true },
+    { id: crypto.randomUUID(), title: 'The Godfather', isDone: false },
+  ],
+};
+
+export const tasksReducer = (
+  state: AllTasksType = initialState,
+  action: ActionsType
+): AllTasksType => {
   switch (action.type) {
     case 'ADD-TASK': {
       const { todolistId, title } = action.payload;
@@ -49,7 +81,6 @@ export const tasksReducer = (state: AllTasksType, action: ActionsType) => {
       return newState;
     }
     default:
-      console.log('I don`t understand this action type');
       return state;
   }
 };
