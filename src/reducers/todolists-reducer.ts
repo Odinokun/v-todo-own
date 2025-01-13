@@ -11,7 +11,20 @@ type ActionsType =
   | ChangeTodoNameACType
   | AddNewTodolistACType;
 
-export const todolistReducer = (state: TodolistType[], action: ActionsType): TodolistType[] => {
+export const todolist_1 = crypto.randomUUID();
+export const todolist_2 = crypto.randomUUID();
+export const todolist_3 = crypto.randomUUID();
+
+const initialState: TodolistType[] = [
+  { id: todolist_1, title: 'Learning', filter: 'all' },
+  { id: todolist_2, title: 'Reading', filter: 'active' },
+  { id: todolist_3, title: 'Watching', filter: 'completed' },
+];
+
+export const todolistReducer = (
+  state: TodolistType[] = initialState,
+  action: ActionsType
+): TodolistType[] => {
   switch (action.type) {
     case 'REMOVE-TODO': {
       const { id } = action.payload;
@@ -31,7 +44,7 @@ export const todolistReducer = (state: TodolistType[], action: ActionsType): Tod
       return [newTodolist, ...state];
     }
     default:
-      throw new Error("I don't understand this action type");
+      return state;
   }
 };
 
