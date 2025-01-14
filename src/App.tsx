@@ -40,6 +40,7 @@ export type AllTasksType = {
 };
 
 function App() {
+  console.log('APP');
   const dispatch = useDispatch();
 
   const todos = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists);

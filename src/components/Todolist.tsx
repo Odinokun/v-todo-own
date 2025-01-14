@@ -39,6 +39,7 @@ export const Todolist: FC<PropsType> = ({
   changeTaskName,
   changeTodolistName,
 }) => {
+  console.log('TODOLIST');
   const removeTodolistHandler = () => removeTodolist(todolistId);
   const addTaskHandler = (title: string) => addTask(todolistId, title);
 

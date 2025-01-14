@@ -8,6 +8,7 @@ type PropsType = {
 };
 
 export const Btn: FC<PropsType> = ({ name, onClick, variant }) => {
+  console.log('BUTTON');
   return (
     <Button variant={variant} size='small' onClick={onClick}>
       {name}

@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 export const Header: FC = () => {
+  console.log('HEADER');
   return (
     <AppBar position='static'>
       <Toolbar>

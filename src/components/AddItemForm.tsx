@@ -7,12 +7,15 @@ type PropsType = {
 };
 
 export const AddItemForm: FC<PropsType> = ({ onClick }) => {
+  console.log('ADD_ITEM_FORM');
   const [error, setError] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>('');
 
   const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.currentTarget.value);
-    setError(false);
+    if (error) {
+      setError(false);
+    }
   };
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
