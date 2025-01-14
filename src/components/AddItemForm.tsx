@@ -1,12 +1,13 @@
-import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
 import { Btn } from './Btn';
-import { Box, TextField } from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 type PropsType = {
   onClick: (title: string) => void;
 };
 
-export const AddItemForm: FC<PropsType> = ({ onClick }) => {
+export const AddItemForm: FC<PropsType> = React.memo(({ onClick }) => {
   console.log('ADD_ITEM_FORM');
   const [error, setError] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>('');
@@ -49,4 +50,4 @@ export const AddItemForm: FC<PropsType> = ({ onClick }) => {
       <Btn variant='contained' name={'add task'} onClick={onClickHandler} />
     </Box>
   );
-};
+});

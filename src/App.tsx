@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import {
@@ -39,7 +40,7 @@ export type AllTasksType = {
   [key: string]: TaskType[];
 };
 
-function App() {
+const App = React.memo(() => {
   console.log('APP');
   const dispatch = useDispatch();
 
@@ -97,6 +98,6 @@ function App() {
       </Container>
     </Box>
   );
-}
+});
 
 export default App;
