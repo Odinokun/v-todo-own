@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import {
@@ -47,20 +47,40 @@ const App = React.memo(() => {
   const todos = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists);
   const allTasks = useSelector<AppRootStateType, AllTasksType>(state => state.tasks);
 
-  const removeTodo = (todolistId: string) => dispatch(removeTodolistAC(todolistId));
-  const addNewTodolist = (title: string) => dispatch(addNewTodolistAC(title));
-
-  const changeFilter = (todolistId: string, filter: FilterValuesType) =>
-    dispatch(changeFilterAC(todolistId, filter));
-  const changeTodoName = (todolistId: string, title: string) =>
-    dispatch(changeTodolistNameAC(todolistId, title));
-
-  const addTask = (todolistId: string, title: string) => dispatch(addTaskAC(todolistId, title));
-  const removeTask = (todolistId: string, id: string) => dispatch(removeTaskAC(todolistId, id));
-  const changeTaskStatus = (todolistId: string, id: string, status: boolean) =>
-    dispatch(changeTaskStatusAC(todolistId, id, status));
-  const changeTaskName = (todolistId: string, id: string, title: string) =>
-    dispatch(changeTaskNameAC(todolistId, id, title));
+  const removeTodo = useCallback(
+    (todolistId: string) => dispatch(removeTodolistAC(todolistId)),
+    [dispatch]
+  );
+  const addNewTodolist = useCallback(
+    (title: string) => dispatch(addNewTodolistAC(title)),
+    [dispatch]
+  );
+  const changeFilter = useCallback(
+    (todolistId: string, filter: FilterValuesType) => dispatch(changeFilterAC(todolistId, filter)),
+    [dispatch]
+  );
+  const changeTodoName = useCallback(
+    (todolistId: string, title: string) => dispatch(changeTodolistNameAC(todolistId, title)),
+    [dispatch]
+  );
+  const addTask = useCallback(
+    (todolistId: string, title: string) => dispatch(addTaskAC(todolistId, title)),
+    [dispatch]
+  );
+  const removeTask = useCallback(
+    (todolistId: string, id: string) => dispatch(removeTaskAC(todolistId, id)),
+    [dispatch]
+  );
+  const changeTaskStatus = useCallback(
+    (todolistId: string, id: string, status: boolean) =>
+      dispatch(changeTaskStatusAC(todolistId, id, status)),
+    [dispatch]
+  );
+  const changeTaskName = useCallback(
+    (todolistId: string, id: string, title: string) =>
+      dispatch(changeTaskNameAC(todolistId, id, title)),
+    [dispatch]
+  );
 
   return (
     <Box>

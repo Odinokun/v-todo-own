@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, useCallback } from 'react';
 
 import { FilterValuesType, TaskType } from '../App';
 import { AddItemForm } from './AddItemForm';
@@ -44,7 +44,10 @@ export const Todolist: FC<PropsType> = React.memo(
   }) => {
     console.log('TODOLIST');
     const removeTodolistHandler = () => removeTodolist(todolistId);
-    const addTaskHandler = (title: string) => addTask(todolistId, title);
+    const addTaskHandler = useCallback(
+      (title: string) => addTask(todolistId, title),
+      [addTask, todolistId]
+    );
 
     // begin filter
     function tasksFilter(): TaskType[] {
