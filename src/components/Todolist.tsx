@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 
 import { FilterValuesType, TaskType } from '../App';
 import { AddItemForm } from './AddItemForm';
@@ -11,8 +11,8 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import CheckBox from '@mui/material/CheckBox';
+
+import { Task } from './Task';
 
 type PropsType = {
   todolistId: string;
@@ -42,7 +42,6 @@ export const Todolist: FC<PropsType> = React.memo(
     changeTaskName,
     changeTodolistName,
   }) => {
-    console.log('TODOLIST');
     const removeTodolistHandler = () => removeTodolist(todolistId);
     const addTaskHandler = useCallback(
       (title: string) => addTask(todolistId, title),
@@ -61,33 +60,32 @@ export const Todolist: FC<PropsType> = React.memo(
       }
     }
     const filteredTasksArr = tasksFilter();
-    const setFilterAll = () => changeFilter(todolistId, 'all');
-    const setFilterActive = () => changeFilter(todolistId, 'active');
-    const setFilterCompleted = () => changeFilter(todolistId, 'completed');
+    const setFilterAll = useCallback(
+      () => changeFilter(todolistId, 'all'),
+      [changeFilter, todolistId]
+    );
+    const setFilterActive = useCallback(
+      () => changeFilter(todolistId, 'active'),
+      [changeFilter, todolistId]
+    );
+    const setFilterCompleted = useCallback(
+      () => changeFilter(todolistId, 'completed'),
+      [changeFilter, todolistId]
+    );
     // end filter
 
     const changeTodolistNameHandler = (title: string) => changeTodolistName(todolistId, title);
 
-    const tasksList: JSX.Element[] = filteredTasksArr.map(t => {
-      const onClickHandler = () => removeTask(todolistId, t.id);
-      const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-        changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
-      const changeTaskNameHandler = (title: string) => {
-        changeTaskName(todolistId, t.id, title);
-      };
-
-      return (
-        <ListItem key={t.id} disableGutters disablePadding sx={{ opacity: t.isDone ? 0.5 : 1 }}>
-          <CheckBox checked={t.isDone} onChange={changeTaskStatusHandler} />
-          <Typography variant='body1' component='span' sx={{ flexGrow: 1 }}>
-            <EditableSpan title={t.title} callbackValue={changeTaskNameHandler} />
-          </Typography>
-          <IconButton size='small' color='error' onClick={onClickHandler}>
-            <DeleteIcon />
-          </IconButton>
-        </ListItem>
-      );
-    });
+    const tasksList: JSX.Element[] = filteredTasksArr.map(t => (
+      <Task
+        key={t.id}
+        todolistId={todolistId}
+        task={t}
+        removeTask={removeTask}
+        changeTaskStatus={changeTaskStatus}
+        changeTaskName={changeTaskName}
+      />
+    ));
 
     return (
       <Paper elevation={3} sx={{ p: 3 }}>

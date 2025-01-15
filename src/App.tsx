@@ -41,7 +41,6 @@ export type AllTasksType = {
 };
 
 const App = React.memo(() => {
-  console.log('APP');
   const dispatch = useDispatch();
 
   const todos = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists);
