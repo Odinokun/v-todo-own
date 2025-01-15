@@ -1,13 +1,13 @@
-import { TextField } from '@mui/material';
+import React, { ChangeEvent, FC, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { ChangeEvent, FC, useState } from 'react';
+import TextField from '@mui/material/TextField';
 
 type PropsType = {
   title: string;
   callbackValue: (title: string) => void;
 };
 
-export const EditableSpan: FC<PropsType> = ({ title, callbackValue }) => {
+export const EditableSpan: FC<PropsType> = React.memo(({ title, callbackValue }) => {
   const [inputVal, setInputVal] = useState<string>(title);
   const [editMode, setEditMode] = useState<boolean>(false);
 
@@ -46,4 +46,4 @@ export const EditableSpan: FC<PropsType> = ({ title, callbackValue }) => {
       )}
     </>
   );
-};
+});

@@ -11,15 +11,7 @@ type ActionsType =
   | ChangeTodoNameACType
   | AddNewTodolistACType;
 
-export const todolist_1 = crypto.randomUUID();
-export const todolist_2 = crypto.randomUUID();
-export const todolist_3 = crypto.randomUUID();
-
-const initialState: TodolistType[] = [
-  { id: todolist_1, title: 'Learning', filter: 'all' },
-  { id: todolist_2, title: 'Reading', filter: 'active' },
-  { id: todolist_3, title: 'Watching', filter: 'completed' },
-];
+const initialState: TodolistType[] = [];
 
 export const todolistReducer = (
   state: TodolistType[] = initialState,
